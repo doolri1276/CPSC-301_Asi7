@@ -50,8 +50,29 @@ public class MemoryManager {
     }
 
     public void deallocate(int address){
-        int addr = address-1;
-        memory[addr+1] = freestart;
-        freestart = addr;
+        int addr = address-1; //real start of the block
+
+        int p = freestart;
+        int lag = NULL;
+        while(p != NULL && p < addr){
+            lag = p;
+            p = memory[p+1];
+        }
+        if (addr + memory[addr] == p){
+            memory[addr] += memory[p]; //add its size to ours
+            p = memory[p+1];
+        }
+        if (lag == NULL){ //ours will be first free
+            freestart = addr;
+            memory[addr+1] = p;
+        }
+        else if (lag+memory[lag] == addr){ //block before is adjacent to ours
+            memory[lag] += memory[addr];
+            memory[lag+1] = p;
+        }
+        else { //neither: just a simple insertion
+            memory[lag+1] = addr;
+            memory[addr+1] = p;
+        }
     }
 }
