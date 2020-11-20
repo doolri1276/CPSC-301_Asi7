@@ -17,13 +17,25 @@ public class MemoryManager {
     public int push(int requestSize){
         int oldtop = top;
         top -= (requestSize+1);
-        if (top<0) throw new StackOverflowError();
+        int lastFree = findLastFree();
+        if (top<0||top-1>lastFree) throw new StackOverflowError();
         memory[top] = oldtop;
+        memory[lastFree+1] = top-1;
+
         return top+1;
+    }
+
+    private int findLastFree(){
+        int p = freestart;
+        while(p!= NULL && memory[p+1] < top -1){
+            p = memory[p+1];
+        }
+        return p;
     }
 
     public void pop(){
         top = memory[top];
+        memory[findLastFree()+1] = top;
     }
 
     public int allocate(int requestSize){
@@ -34,7 +46,7 @@ public class MemoryManager {
             lag = p;
             p = memory[p+1];
         }
-        if (p == NULL)
+        if (p == NULL || p > top-1)
             throw new OutOfMemoryError();
         int nextFree = memory[p+1];
         int unused = memory[p]-size;
