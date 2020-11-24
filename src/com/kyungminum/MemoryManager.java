@@ -19,21 +19,24 @@ public class MemoryManager {
         int oldtop = top;               //save the value of the previous top
         this.top -= (requestSize+1);
         int highestHeap = findHeapPeak();
-        System.out.println(top);
+        System.out.println("highestHeap:"+highestHeap);
         if (top<0||top-1<highestHeap)
             throw new StackOverflowError();
         memory[top] = oldtop;
-        memory[highestHeap+1] = top;
+        memory[highestHeap]-=(requestSize+1);
 
         return top+1;
     }
 
     private int findHeapPeak(){
         int p = freestart;
-        while (p!=NULL&&memory[p+1]<top-1){
+        int highest=p;
+        while (p!=-1){
             p = memory[p+1];
+            System.out.println("p:"+p);
+            highest=Math.max(p, highest);
         }
-        return p;
+        return highest;
     }
 
 
@@ -42,6 +45,9 @@ public class MemoryManager {
         int oldtop = top;
         top = memory[top];
         memory[oldtop] = 0;
+        System.out.println("pop");
+        int peak = findHeapPeak();
+        System.out.println("peak : "+peak);
         memory[findHeapPeak()+1]=top;
     }
 
@@ -80,28 +86,6 @@ public class MemoryManager {
         memory[addr+1] = freestart;
         freestart = addr;
 
-//        int p = freestart;
-//        int lag = NULL;
-//        while(p != NULL && p < addr){
-//            lag = p;
-//            p = memory[p+1];
-//        }
-//        if (addr + memory[addr] == p){
-//            memory[addr] += memory[p]; //add its size to ours
-//            p = memory[p+1];
-//        }
-//        if (lag == NULL){ //ours will be first free
-//            freestart = addr;
-//            memory[addr+1] = p;
-//        }
-//        else if (lag+memory[lag] == addr){ //block before is adjacent to ours
-//            memory[lag] += memory[addr];
-//            memory[lag+1] = p;
-//        }
-//        else { //neither: just a simple insertion
-//            memory[lag+1] = addr;
-//            memory[addr+1] = p;
-//        }
     }
 
     public void display(){
