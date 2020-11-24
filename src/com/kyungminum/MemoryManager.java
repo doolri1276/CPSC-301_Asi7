@@ -10,13 +10,13 @@ public class MemoryManager {
         this.memory = initalMemory;
         this.top = memory.length;
         this.memory[0] = memory.length;
-        this.memory[1] = this.top-1;
+        this.memory[1] = -1;
         this.freestart = 0;
     }
 
     public int push(int requestSize){
         int oldtop = top;               //save the value of the previous top
-        top -= (requestSize+1);         //
+        this.top -= (requestSize+1);         //
         int lastFree = findLastFree();
         if (top<0||top-1>lastFree)
             throw new StackOverflowError();
@@ -89,7 +89,10 @@ public class MemoryManager {
         }
     }
 
-    public String toString(){
-        return memory.toString();
+    public void display(){
+        for (int i = 0; i < memory.length; i++) {
+            System.out.print(memory[i]+" ");
+        }
+        System.out.println();
     }
 }
