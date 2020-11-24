@@ -19,7 +19,6 @@ public class MemoryManager {
         int oldtop = top;               //save the value of the previous top
         this.top -= (requestSize+1);
         int highestHeap = findHeapPeak();
-        System.out.println("highestHeap:"+highestHeap);
         if (top<0||top-1<highestHeap)
             throw new StackOverflowError();
         memory[top] = oldtop;
@@ -33,7 +32,6 @@ public class MemoryManager {
         int highest=p;
         while (p!=-1){
             p = memory[p+1];
-            System.out.println("p:"+p);
             highest=Math.max(p, highest);
         }
         return highest;
@@ -45,9 +43,7 @@ public class MemoryManager {
         int oldtop = top;
         top = memory[top];
         memory[oldtop] = 0;
-        System.out.println("size:" +(top-oldtop) );
         int peak = findHeapPeak();
-        System.out.println("peak : "+peak);
         memory[findHeapPeak()]+=top-oldtop;
     }
 
