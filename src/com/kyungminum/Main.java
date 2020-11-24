@@ -12,5 +12,15 @@ public class Main {
         m.pop();
         m.display();
 
+        Queue<Integer> queue = new Queue<Integer>();
+        queue.add(4);
+        queue.add(5);
+        queue.add(6);
+        queue.add(7);
+        queue.print();
+        queue.remove();
+        queue.remove();
+        queue.print();
+
     }
 }
