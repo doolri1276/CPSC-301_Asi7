@@ -3,7 +3,7 @@ package com.kyungminum;
 public class MemoryManager {
     static private final int NULL = -1;
     private int[] memory; //memory we manage
-    private int top;
+    public int top;
     private int freestart; //start of free list
 
     public MemoryManager(int[] initalMemory){
@@ -14,6 +14,7 @@ public class MemoryManager {
         this.freestart = 0;
     }
 
+    //장군
     public int push(int requestSize){
         int oldtop = top;               //save the value of the previous top
         this.top -= (requestSize+1);
@@ -35,12 +36,14 @@ public class MemoryManager {
     }
 
 
+    //쇼지
     public void pop(){
         memory[freestart]+=(memory[top]-top);
         top = memory[top];
         memory[top]=0;
     }
 
+    //경민
     public int allocate(int requestSize){
         int size = requestSize+1;
         int p = freestart;
@@ -49,16 +52,22 @@ public class MemoryManager {
             lag = p;
             p = memory[p+1];
         }
-        if (p == NULL || p > top-1)
+
+        if (p == NULL || p+size > top-2)
             throw new OutOfMemoryError();
         int nextFree = memory[p+1];
         int unused = memory[p]-size;
-        if (unused > 1){
+
+        if (unused >1){
             nextFree = p + size;
             memory[nextFree] = unused;
             memory[nextFree+1] = memory[p+1];
             memory[p]= size;
+            memory[p+1]=0;
         }
+
+        memory[p+1]=0;
+
         if (lag == NULL) freestart = nextFree;
         else memory[lag+1] = nextFree;
         return p+1;
@@ -66,29 +75,31 @@ public class MemoryManager {
 
     public void deallocate(int address){
         int addr = address-1; //real start of the block
+        memory[addr+1] = freestart;
+        freestart = addr;
 
-        int p = freestart;
-        int lag = NULL;
-        while(p != NULL && p < addr){
-            lag = p;
-            p = memory[p+1];
-        }
-        if (addr + memory[addr] == p){
-            memory[addr] += memory[p]; //add its size to ours
-            p = memory[p+1];
-        }
-        if (lag == NULL){ //ours will be first free
-            freestart = addr;
-            memory[addr+1] = p;
-        }
-        else if (lag+memory[lag] == addr){ //block before is adjacent to ours
-            memory[lag] += memory[addr];
-            memory[lag+1] = p;
-        }
-        else { //neither: just a simple insertion
-            memory[lag+1] = addr;
-            memory[addr+1] = p;
-        }
+//        int p = freestart;
+//        int lag = NULL;
+//        while(p != NULL && p < addr){
+//            lag = p;
+//            p = memory[p+1];
+//        }
+//        if (addr + memory[addr] == p){
+//            memory[addr] += memory[p]; //add its size to ours
+//            p = memory[p+1];
+//        }
+//        if (lag == NULL){ //ours will be first free
+//            freestart = addr;
+//            memory[addr+1] = p;
+//        }
+//        else if (lag+memory[lag] == addr){ //block before is adjacent to ours
+//            memory[lag] += memory[addr];
+//            memory[lag+1] = p;
+//        }
+//        else { //neither: just a simple insertion
+//            memory[lag+1] = addr;
+//            memory[addr+1] = p;
+//        }
     }
 
     public void display(){
