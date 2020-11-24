@@ -4,21 +4,21 @@ public class Main {
 
     public static void main(String[] args) {
 
-        MemoryManager m = new MemoryManager(new int[20]);
-        int p1 = m.push(4);
-        int p2 = m.push(4);
-        m.display();
+        MemoryManager m = new MemoryManager(new int[10]);
+//        int p1 = m.push(4);
+//        int p2 = m.push(4);
+//        m.display();
 
-        m.pop();
+//        m.pop();
         int p3 = m.allocate(4);
-        int p4 = m.allocate(4);
+//        int p4 = m.allocate( 1);
 
-/*        m.display();
-        m.deallocate(p3);
-        m.deallocate(p4);
-        int p5 = m.allocate(5);
-        m.display();
-*/
+       m.display2();
+//        m.deallocate(p3);
+//        m.deallocate(p4);
+//        int p5 = m.allocate(5);
+//        m.display();
+
 
 
 //        Queue<Integer> queue = new Queue<>();
