@@ -105,13 +105,6 @@ public class MemoryManager {
     }
 
     public void display(){
-        for (int i = 0; i < memory.length; i++) {
-            System.out.print(memory[i]+" ");
-        }
-        System.out.println();
-    }
-
-    public void display2(){
         System.out.println("==========");
         System.out.println("TOP : "+top);
         System.out.println("FREE : "+freestart);
