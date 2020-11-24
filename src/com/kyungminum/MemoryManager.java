@@ -8,17 +8,18 @@ public class MemoryManager {
 
     public MemoryManager(int[] initalMemory){
         this.memory = initalMemory;
-        top = memory.length;
-        memory[0] = memory.length;
-        memory[1] = NULL;
-        freestart = 0;
+        this.top = memory.length;
+        this.memory[0] = memory.length;
+        this.memory[1] = this.top-1;
+        this.freestart = 0;
     }
 
     public int push(int requestSize){
-        int oldtop = top;
-        top -= (requestSize+1);
+        int oldtop = top;               //save the value of the previous top
+        top -= (requestSize+1);         //
         int lastFree = findLastFree();
-        if (top<0||top-1>lastFree) throw new StackOverflowError();
+        if (top<0||top-1>lastFree)
+            throw new StackOverflowError();
         memory[top] = oldtop;
         memory[lastFree+1] = top-1;
 
@@ -27,7 +28,7 @@ public class MemoryManager {
 
     private int findLastFree(){
         int p = freestart;
-        while(p!= NULL && memory[p+1] < top -1){
+        while(p!= NULL && memory[p+1] < top-1){
             p = memory[p+1];
         }
         return p;
@@ -86,5 +87,9 @@ public class MemoryManager {
             memory[lag+1] = addr;
             memory[addr+1] = p;
         }
+    }
+
+    public String toString(){
+        return memory.toString();
     }
 }
