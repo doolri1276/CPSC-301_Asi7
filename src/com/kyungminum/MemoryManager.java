@@ -39,9 +39,10 @@ public class MemoryManager {
 
     //쇼지
     public void pop(){
-        memory[freestart]+=(memory[top]-top);
+        int oldtop = top;
         top = memory[top];
-        memory[top]=0;
+        memory[oldtop] = 0;
+        memory[findHeapPeak()+1]=top;
     }
 
     //경민
