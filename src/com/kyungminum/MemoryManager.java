@@ -4,31 +4,31 @@ public class MemoryManager {
     static private final int NULL = -1;
     private int[] memory; //memory we manage
     public int top;
-    private int freestart; //start of free list
+    private int freeStart; //start of free list
 
-    public MemoryManager(int[] initalMemory){
-        this.memory = initalMemory;
+    public MemoryManager(int[] initialMemory){
+        this.memory = initialMemory;
         this.top = memory.length;
         this.memory[0] = memory.length;
         this.memory[1] = -1;
-        this.freestart = 0;
+        this.freeStart = 0;
     }
 
     //장군
     public int push(int requestSize){
-        int oldtop = top;               //save the value of the previous top
+        int oldTop = top;               //save the value of the previous top
         this.top -= (requestSize+1);
         int highestHeap = findHeapPeak();
         if (top<0||top-1<highestHeap)
             throw new StackOverflowError();
-        memory[top] = oldtop;
+        memory[top] = oldTop;
         memory[highestHeap]-=(requestSize+1);
 
         return top+1;
     }
 
     private int findHeapPeak(){
-        int p = freestart;
+        int p = freeStart;
         int highest=p;
         while (p!=-1){
             p = memory[p+1];
@@ -40,17 +40,17 @@ public class MemoryManager {
 
     //쇼지
     public void pop(){
-        int oldtop = top;
+        int oldTop = top;
         top = memory[top];
-        memory[oldtop] = 0;
+        memory[oldTop] = 0;
         int peak = findHeapPeak();
-        memory[findHeapPeak()]+=top-oldtop;
+        memory[findHeapPeak()]+=top-oldTop;
     }
 
     //경민
     public int allocate(int requestSize){
         int size = requestSize+1;
-        int p = freestart;
+        int p = freeStart;
         int lag = NULL;
         while(p != NULL && memory[p]<size){
             lag = p;
@@ -72,22 +72,22 @@ public class MemoryManager {
 
         memory[p+1]=0;
 
-        if (lag == NULL) freestart = nextFree;
+        if (lag == NULL) freeStart = nextFree;
         else memory[lag+1] = nextFree;
         return p+1;
     }
 
     public void deallocate(int address){
         int addr = address-1; //real start of the block
-        memory[addr+1] = freestart;
-        freestart = addr;
+        memory[addr+1] = freeStart;
+        freeStart = addr;
 
     }
 
     public void display(){
         System.out.println("==========");
         System.out.println("TOP : "+top);
-        System.out.println("FREE : "+freestart);
+        System.out.println("FREE : "+ freeStart);
         System.out.println("==========");
         for (int i = memory.length-1; i >=0; i--) {
             System.out.println(i+": "+memory[i]);
