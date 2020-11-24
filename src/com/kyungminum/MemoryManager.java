@@ -16,27 +16,20 @@ public class MemoryManager {
 
     public int push(int requestSize){
         int oldtop = top;               //save the value of the previous top
-        this.top -= (requestSize+1);         //
-        int lastFree = findLastFree();
-        if (top<0||top-1>lastFree)
+        this.top -= (requestSize+1);
+        if (top<freestart)
             throw new StackOverflowError();
         memory[top] = oldtop;
-        memory[lastFree+1] = top-1;
+        memory[freestart]-=(requestSize+1);
 
         return top+1;
     }
 
-    private int findLastFree(){
-        int p = freestart;
-        while(p!= NULL && memory[p+1] < top-1){
-            p = memory[p+1];
-        }
-        return p;
-    }
 
     public void pop(){
+        memory[freestart]+=(memory[top]-top);
         top = memory[top];
-        memory[findLastFree()+1] = top;
+        memory[top]=0;
     }
 
     public int allocate(int requestSize){

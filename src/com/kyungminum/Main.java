@@ -6,11 +6,10 @@ public class Main {
         MemoryManager m = new MemoryManager(new int[20]);
         int p1 = m.push(4);
         int p2 = m.push(4);
+        int p3 = m.allocate(4);
+        //int p4 = m.allocate(4);
         m.display();
 
-        m.pop();
-        int p3 = m.allocate(4);
-        int p4 = m.allocate(4);
 
 /*        m.display();
         m.deallocate(p3);
