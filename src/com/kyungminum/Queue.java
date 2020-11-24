@@ -24,4 +24,19 @@ public class Queue<T> implements Worklist<T> {
         cur.setNextNode(null);
         return data;
     }
+
+    public void print(){
+        if(top==null){
+            System.out.println("Queue is empty");
+        }else{
+            Node<T> cur=top;
+            while(cur!=null){
+                System.out.println(cur);
+                cur=cur.getNextNode();
+            }
+        }
+        System.out.println();
+    }
+
+
 }
