@@ -17,12 +17,21 @@ public class MemoryManager {
     public int push(int requestSize){
         int oldtop = top;               //save the value of the previous top
         this.top -= (requestSize+1);
-        if (top<freestart)
+        int highestHeap = findHeapPeak();
+        if (top<0||top-1<highestHeap)
             throw new StackOverflowError();
         memory[top] = oldtop;
-        memory[freestart]-=(requestSize+1);
+        memory[highestHeap+1] = top-1;
 
         return top+1;
+    }
+
+    private int findHeapPeak(){
+        int p = freestart;
+        while (p!=NULL&&memory[p+1]<top-1){
+            p = memory[p+1];
+        }
+        return p;
     }
 
 
