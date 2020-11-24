@@ -20,4 +20,10 @@ public class Node<T> {
     public void setNextNode(Node<T> nextNode) {
         this.nextNode = nextNode;
     }
+
+    @Override
+    public String toString() {
+        return "data=" + data +
+                ", nextNode=" + (nextNode==null?"null":nextNode.getData());
+    }
 }
