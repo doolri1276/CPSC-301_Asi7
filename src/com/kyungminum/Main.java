@@ -7,8 +7,6 @@ public class Main {
         m.push(4);
         m.allocate(2);
         m.display();
-//        m.allocate(2);
-//        m.display();
         m.pop();
         m.display();
 
