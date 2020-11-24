@@ -19,10 +19,11 @@ public class MemoryManager {
         int oldtop = top;               //save the value of the previous top
         this.top -= (requestSize+1);
         int highestHeap = findHeapPeak();
+        System.out.println(top);
         if (top<0||top-1<highestHeap)
             throw new StackOverflowError();
         memory[top] = oldtop;
-        memory[highestHeap+1] = top-1;
+        memory[highestHeap+1] = top;
 
         return top+1;
     }

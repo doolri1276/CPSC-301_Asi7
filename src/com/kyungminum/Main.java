@@ -4,16 +4,20 @@ public class Main {
 
     public static void main(String[] args) {
         MemoryManager m = new MemoryManager(new int[10]);
+        int p1 = m.push(4);
+        int p2 = m.allocate(4);
+
+        m.display2();
 //        int p1 = m.push(4);
         //int p2 = m.push(4);
 //        m.top = 9;
-        int h3 = m.allocate(2);
+/*        int h3 = m.allocate(2);
         m.display2();
         m.allocate(2);
         m.display2();
         m.deallocate(1);
         m.display2();
-        m.allocate(2);
+        m.allocate(2);*/
 //        m.allocate(2);
 //        m.allocate(2);
 //        m.deallocate(1);
@@ -21,7 +25,7 @@ public class Main {
 //        m.allocate(2);
 //        m.deallocate(0);
         //int p4 = m.allocate(4);
-        m.display2();
+/*        m.display2();*/
 
 
 /*        m.display();
