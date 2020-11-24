@@ -45,10 +45,10 @@ public class MemoryManager {
         int oldtop = top;
         top = memory[top];
         memory[oldtop] = 0;
-        System.out.println("pop");
+        System.out.println("size:" +(top-oldtop) );
         int peak = findHeapPeak();
         System.out.println("peak : "+peak);
-        memory[findHeapPeak()+1]=top;
+        memory[findHeapPeak()]+=top-oldtop;
     }
 
     //경민
